@@ -1,10 +1,23 @@
-# immunological_covid
-code used in paper "Systems vaccinology identifies medical and immunological correlates of SARS-CoV-2 protection in organ transplantation recipients"
+# Alzhemiers Disease
+code used in paper " Alzhemiers Disease"
 
 ## Table of contents
+* [Instalation](#Instalation)
+* [Create docker images](#Create-docker-images)
 * [Files description](#Files-description)
 * [Necessary repositories](#Necessary-repositories)
 
+## Instalation
+For increase reuse and reproductibility we use NextFlow and Docker to construct data workflow and container for versions and dependency consistency. Need to be instaled:
+* **Docker**: The instruction for instalation of **Docker** can be found [https://docs.docker.com/get-started/get-docker/](https://docs.docker.com/get-started/get-docker/)
+* **NextFlow**: The instruction for instalation of **NextFlow** can be found [https://www.nextflow.io/docs/latest/install.html](https://www.nextflow.io/docs/latest/install.html)
+
+## Create docker images
+In bash execute the file **create_docker.sh**
+```
+chmod +x create_docker.sh
+./create_docker.sh
+```
 
 ## Files description
 * **Tools.py** :  Set containing machine learning tools. The tools were parallelized and suitable for performing nested cross-validation. These implementations can be easily adapted and reused in different pipelines. A complete and current version can be found in the repository [https://github.com/rafael-veiga/tools_ML.git](https://github.com/rafael-veiga/tools_ML.git).
