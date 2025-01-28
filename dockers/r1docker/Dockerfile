@@ -1,12 +1,20 @@
-FROM r-base:4.4.2
+FROM rocker/r-ver:4.4.2
 
-WORKDIR /script
+WORKDIR /scripts
 
 RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev \
     libssl-dev \
     libxml2-dev \
+    libfontconfig1-dev \
+    libfreetype6-dev \
+    libharfbuzz-dev \
+    libfribidi-dev \
+    libpng-dev \
+    libtiff5-dev \
+    libjpeg-dev \
     && rm -rf /var/lib/apt/lists/*
 
+RUN R -e "install.packages('tidyverse', repos = 'https://cloud.r-project.org/')"
 
-RUN R -e "install.packages('tidyverse', version = '2.0.0', repos = 'https://cloud.r-project.org/')"
+COPY scripts/*.R ./

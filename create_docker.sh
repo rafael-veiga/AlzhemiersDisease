@@ -8,5 +8,6 @@ then
     exit 1
 fi
 
-docker build -t $repos ./dockers/$repos
+docker build -t $repos -f ./dockers/$repos/Dockerfile .
+
 
