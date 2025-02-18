@@ -3,7 +3,6 @@ FROM debian:11-slim
 WORKDIR /scripts
 
 
-
 # Instala pacotes básicos para HTTPS, gerenciamento de chaves e compilação
 RUN apt-get update && apt-get install -y --no-install-recommends \
     dirmngr gnupg apt-transport-https ca-certificates \
@@ -20,8 +19,6 @@ RUN echo "deb https://cloud.r-project.org/bin/linux/debian bullseye-cran40/" > /
 RUN apt-get update && apt-get install -y --no-install-recommends r-base && \
     rm -rf /var/lib/apt/lists/*
 
-RUN Rscript -e "install.packages(c('tibble', 'readr', 'stringr'), repos='https://cloud.r-project.org')"
+RUN Rscript -e "install.packages(c('tibble'), repos='https://cloud.r-project.org')"
 
 COPY scripts/*.R ./
-
-

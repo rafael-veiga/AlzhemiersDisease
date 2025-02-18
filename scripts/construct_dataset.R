@@ -1,4 +1,6 @@
-library(tidyverse)
+library(tibble)
+library(readr)
+library(stringr)
 
 args <- commandArgs(trailingOnly = TRUE)
 #args = c("AD_data_combined.csv","age_cohort.csv")
@@ -63,7 +65,7 @@ df$disease[fill0] = 0
 
 df_age = read_csv(args[2])
 df = merge(df_age,df,by="Sample")
-df$gender = as_factor(df$gender)
+df$gender = as.factor(df$gender)
 
 df$Sample = substr(df$Sample,1,5)
 df <- tibble(reg = 1:nrow(df), df)

@@ -1,7 +1,7 @@
-library(tidyverse)
+library(tibble)
 
 args <- commandArgs(trailingOnly = TRUE)
-#args = c("out.rds","out2.rds")
+#args = c("out1.rds","out2.rds")
 
 file_input = args[1]
 file_outpu = args[2]
@@ -12,9 +12,10 @@ f_standart <- function(df1){
   std = rep(NA,length(colnames(df1)))
   for(i in 1:length(colnames(df1))){
     print(i)
-    med[i] = colMeans(df1[,i],na.rm=TRUE)
-    std[i] = sd(as.numeric(df1[[i]]),na.rm=TRUE)
-    df1[,i] = (df1[,i] - med[i])/std[i]
+    vari = as.numeric(df1[[i]])
+    med[i] = mean(vari,na.rm=TRUE)
+    std[i] = sd(vari,na.rm=TRUE)
+    df1[,i] = (vari - med[i])/std[i]
     
   }
   trans = tibble(med=med,std = std)
