@@ -2,7 +2,7 @@ nextflow.enable.dsl=2
 
 process logistic_mark {
 label 'logistic_mark'
-
+publishDir "result", mode: 'copy'
 input:
 path input_file
 

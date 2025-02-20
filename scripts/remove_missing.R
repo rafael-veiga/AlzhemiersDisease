@@ -8,15 +8,44 @@ file_outpu = args[2]
 a=0
 ################
 remove_missing <- function(data, perc=0.2) {
-  base= data$df
-  base = base[!is.na(base$`ST1: batch`),]
-  base = base[!is.na(base$`ST2: batch`),]
-  base = base[!is.na(base$`ST3: batch`),]
-  immun = data$immun
-  aux = data$df
-  tot = round(nrow(base)*perc)
+  #ST1
+  fil = data$painel=="ST1"
+  fil[is.na(fil)] = FALSE
+  immun = colnames(data$df)[fil]
+  aux = data$df[!is.na(data$df$`ST1: batch`),]
+  tot = round(nrow(aux)*perc)
   for(i in 1:length(immun)){
-    dcol = base[,immun[i]]
+    dcol = aux[,immun[i]]
+    n = length(dcol[is.na(dcol)])
+    if(n>tot){
+      data$painel = data$painel[colnames(data$df)!= immun[i]]
+      data$df = data$df[,colnames(data$df)!= immun[i]]
+      data$immun = data$immun[data$immun!=immun[i]]
+    }
+  }
+  #ST2
+  fil = data$painel=="ST2"
+  fil[is.na(fil)] = FALSE
+  immun = colnames(data$df)[fil]
+  aux = data$df[!is.na(data$df$`ST2: batch`),]
+  tot = round(nrow(aux)*perc)
+  for(i in 1:length(immun)){
+    dcol = aux[,immun[i]]
+    n = length(dcol[is.na(dcol)])
+    if(n>tot){
+      data$painel = data$painel[colnames(data$df)!= immun[i]]
+      data$df = data$df[,colnames(data$df)!= immun[i]]
+      data$immun = data$immun[data$immun!=immun[i]]
+    }
+  }
+  #ST3
+  fil = data$painel=="ST3"
+  fil[is.na(fil)] = FALSE
+  immun = colnames(data$df)[fil]
+  aux = data$df[!is.na(data$df$`ST3: batch`),]
+  tot = round(nrow(aux)*perc)
+  for(i in 1:length(immun)){
+    dcol = aux[,immun[i]]
     n = length(dcol[is.na(dcol)])
     if(n>tot){
       data$painel = data$painel[colnames(data$df)!= immun[i]]

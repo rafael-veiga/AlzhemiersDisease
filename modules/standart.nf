@@ -7,10 +7,10 @@ input:
 path input_file
 
 output:
-path "data.rds"
+path "data1.rds"
 
 """
-Rscript /scripts/Standart.R $input_file data.rds
+Rscript /scripts/Standart.R $input_file data1.rds
 """
 }
 
@@ -21,9 +21,9 @@ input:
 path input_file
 
 output:
-path "data.rds"
+path "data2.rds"
 
 """
-Rscript /scripts/Standart.R $input_file data.rds
+Rscript /scripts/Standart.R $input_file data2.rds
 """
 }

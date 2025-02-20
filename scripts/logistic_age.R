@@ -3,7 +3,7 @@ library(foreach)
 library(doParallel)
 
 args <- commandArgs(trailingOnly = TRUE)
-args = c("data.rds","res_lr_age.csv", 15)
+#args = c("data.rds","res_lr_age.csv", 15)
 
 file_input = args[1]
 file_outpu = args[2]
