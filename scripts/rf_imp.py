@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 import sys
-import os
+#import os
 
 
 file_df = sys.argv[1]
@@ -23,10 +23,10 @@ file_saida = sys.argv[3]
 n_jobs = 15
 seed = 12345
 
-fold = os.path.dirname(os.path.realpath(__file__))
-file_df = os.path.join(fold, file_df)  
-file_imuno = os.path.join(fold, file_imuno)
-file_saida = os.path.join(fold, file_saida) 
+#fold = os.path.dirname(os.path.realpath(__file__))
+#file_df = os.path.join(fold, file_df)  
+#file_imuno = os.path.join(fold, file_imuno)
+#file_saida = os.path.join(fold, file_saida) 
 
     
 def rf_res(df,immun):
