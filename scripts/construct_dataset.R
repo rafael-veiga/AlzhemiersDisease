@@ -55,6 +55,27 @@ get_fil <- function(col,type="all",pop="all",mark="all"){
   }
   return(fil_m & fil_p & fil_t)
 }
+
+remove_missing <- function(df,per){
+  df1 = df
+  #df1$type = NULL
+  vari = colnames(df1)[get_fil(colnames(df1),type=c("mark_in_pop","pop_in_pop"))]
+  for(v in vari){
+    tab = as.data.frame(table(is.na(df1[,colnames(df1)==v])))
+    if("TRUE" %in% tab$Var1){
+      perc = tab$Freq[tab$Var1=="TRUE"]/ sum(tab$Freq)
+      
+    }else{
+      perc = 0
+    }
+    
+    if(perc>per){
+      #print(colnames(df1))
+      df1 = df1[,colnames(df1)!=v]
+    }
+  }
+  return(df1)
+}
 # read files
 df = read_csv(args[1])
 df$disease = NA
@@ -111,6 +132,53 @@ st3_list = unlist(st3_list)
 
 fil = get_fil(colnames(df),type = c("pop_in_pop","mark_in_pop"))
 immun = colnames(df)[fil]
+
+other = colnames(df)[!fil]
+
+st1_df = df[,c(other,st1_list)]
+st2_df = df[,c(other,st2_list)]
+st3_df = df[,c(other,st3_list)]
+
+
+st1_df = st1_df[!is.na(st1_df$`ST1: batch`),]
+st2_df = st2_df[!is.na(st2_df$`ST2: batch`),]
+st3_df = st3_df[!is.na(st3_df$`ST3: batch`),]
+
+st1_df = remove_missing(st1_df,per=0.2)
+st2_df = remove_missing(st2_df,per=0.2)
+st3_df = remove_missing(st3_df,per=0.2)
+
+remove_dub <-function(df_aux){
+  col = colnames(df_aux)
+  fil_x = str_ends(col,".x")
+  a = col[fil_x]
+  a = substr(a,start = 1,stop=nchar(a)-2)
+  for(i in 1:length(a)){
+    if(is.factor(df_aux[,paste0(a[i],".x")])){
+      df_aux[a[i]] = factor(
+        ifelse(is.na(df_aux[[paste0(a[i], ".x")]]), 
+               as.character(df_aux[[paste0(a[i], ".y")]]), 
+               as.character(df_aux[[paste0(a[i], ".x")]]))
+      )
+    }else{
+      df_aux[a[i]] = rowMeans(df_aux[,c(paste0(a[i],".x"),paste0(a[i],".y"))],na.rm = TRUE)
+    }
+    df_aux[paste0(a[i],".x")] = NULL
+    df_aux[paste0(a[i],".y")] = NULL
+  }
+  return(df_aux)
+}
+
+
+
+df <- merge(st1_df, st2_df, by = c("Sample", "disease"),all = TRUE)
+df = remove_dub(df)
+df <- merge(df, st3_df, by = c("Sample", "disease"),all = TRUE)
+df = remove_dub(df)
+
+fil = get_fil(colnames(df),type = c("pop_in_pop","mark_in_pop"))
+immun = colnames(df)[fil]
+
 other = colnames(df)[!fil]
 col = colnames(df)
 painel = rep(NA,length(col))
@@ -124,33 +192,10 @@ for(i in 1:length(col)){
   if(col[i] %in% st2_list){
     painel[i] = "ST2"
   }
-    
+  
 }
-
-st1_df = df[,c(other,st1_list)]
-st2_df = df[,c(other,st2_list)]
-st3_df = df[,c(other,st3_list)]
-
-
-st1_df = st1_df[!is.na(st1_df$`ST1: batch`),]
-st2_df = st2_df[!is.na(st2_df$`ST2: batch`),]
-st3_df = st3_df[!is.na(st3_df$`ST3: batch`),]
 
 data = list(df=df,painel=painel,immun=immun)
 
 saveRDS(data, file = "data_raw.rds")
 
-fil = get_fil(colnames(st1_df),type = c("pop_in_pop","mark_in_pop"))
-immun = colnames(st1_df)[fil]
-data = list(df=st1_df,immun=immun)
-saveRDS(st1_df, file = "ST1_raw.rds")
-
-fil = get_fil(colnames(st2_df),type = c("pop_in_pop","mark_in_pop"))
-immun = colnames(st2_df)[fil]
-data = list(df=st2_df,immun=immun)
-saveRDS(st2_df, file = "ST2_raw.rds")
-
-fil = get_fil(colnames(st3_df),type = c("pop_in_pop","mark_in_pop"))
-immun = colnames(st3_df)[fil]
-data = list(df=st3_df,immun=immun)
-saveRDS(st3_df, file = "ST3_raw.rds")

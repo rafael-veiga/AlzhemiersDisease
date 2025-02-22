@@ -1,14 +1,11 @@
 library(tibble)
 
 args <- commandArgs(trailingOnly = TRUE)
-#args = c("out1.rds","out4.rds")
+#args = c("imp_data.rds","data_py")
 
 file_input = args[1]
 file_outpu = args[2]
 
 data = readRDS(file = file_input)
-
-data$df = data$df[data$df$disease==0,] 
-
-
-saveRDS(data,file_outpu)
+write.table(data$df,paste0(file_outpu,"_df.csv"),sep = ";",row.names = FALSE,quote = FALSE)
+write.table(data$immun,paste0(file_outpu,"_immun.csv"),sep = "\n",row.names = FALSE,col.names = FALSE,quote = FALSE)
