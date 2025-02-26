@@ -11,7 +11,8 @@ include { logistic_mark } from "$projectDir/modules/logistic_mark.nf"
 include { logistic_age } from "$projectDir/modules/logistic_age.nf"
 include { logistic_mark_par } from "$projectDir/modules/logistic_mark_par.nf"
 include { r_to_python } from "$projectDir/modules/r_to_python.nf"
-include { rf_imp } from "$projectDir/modules/rf_imp.nf"
+include { lr_auc } from "$projectDir/modules/lr_auc.nf"
+include { pars_1 } from "$projectDir/modules/pars_1.nf"
 
 
 params.adDataCombined = "$projectDir/data/AD_data_combined.csv"
@@ -31,5 +32,6 @@ workflow {
     res_lr_age_ch = logistic_age(select_control(norm2_data_ch))
     res_lr_par_ch = logistic_mark_par(norm2_data_ch)
     (df_ch,imuno_ch) = r_to_python(imp_ch)
-    importance_rf_ch = rf_imp(df_ch,imuno_ch)
+    importance_rf_ch = lr_auc(df_ch,imuno_ch,res_lr_ch)
+    pars_1(imp_ch,res_lr_ch)
 }

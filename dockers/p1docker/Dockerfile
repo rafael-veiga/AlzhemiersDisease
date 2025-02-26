@@ -11,4 +11,4 @@ RUN pip3 install pandas==2.2.3
 RUN pip3 install scikit-learn==1.6.1
 RUN pip3 install joblib==1.4.2
 
-COPY scripts/rf_imp.py ./
+COPY scripts/lr_auc.py ./

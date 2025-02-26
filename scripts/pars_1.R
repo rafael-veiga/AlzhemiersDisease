@@ -1,8 +1,7 @@
 library(tibble)
-library(forecast)
 library(ggplot2)
 args <- commandArgs(trailingOnly = TRUE)
-args = c("imp_data.rds","res_lr.csv","out.csv")
+#args = c("imp_data.rds","res_lr.csv","out.csv")
 
 file_input = args[1]
 file_input2 = args[2]

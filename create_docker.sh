@@ -19,3 +19,5 @@ repos="r5docker"
 docker build -t $repos -f ./dockers/$repos/Dockerfile .
 repos="p1docker"
 docker build -t $repos -f ./dockers/$repos/Dockerfile .
+repos="r6docker"
+docker build -t $repos -f ./dockers/$repos/Dockerfile .
