@@ -14,6 +14,9 @@ include { r_to_python } from "$projectDir/modules/r_to_python.nf"
 include { lr_auc } from "$projectDir/modules/lr_auc.nf"
 include { pars_1 } from "$projectDir/modules/pars_1.nf"
 include { rf_res } from "$projectDir/modules/rf_res.nf"
+include { rf_res2 } from "$projectDir/modules/rf_res2.nf"
+include { lr_n_auc } from "$projectDir/modules/lr_n_auc.nf"
+include { rf_n_auc } from "$projectDir/modules/rf_n_auc.nf"
 
 
 params.adDataCombined = "$projectDir/data/AD_data_combined.csv"
@@ -33,7 +36,10 @@ workflow {
     res_lr_age_ch = logistic_age(select_control(norm2_data_ch))
     res_lr_par_ch = logistic_mark_par(norm2_data_ch)
     (df_ch,imuno_ch) = r_to_python(imp_ch)
-    importance_rf_ch = lr_auc(df_ch,imuno_ch,res_lr_ch)
+    importance_lr_ch = lr_auc(df_ch,imuno_ch,res_lr_ch)
     (rf_auc1_ch,rf_auc2_ch) = rf_res(df_ch,imuno_ch)
+    rf_imp_ch = rf_res2(df_ch,imuno_ch,rf_auc2_ch)
     pars_1(imp_ch,res_lr_ch)
+    lr_n_auc_ch = lr_n_auc(df_ch,res_lr_ch)
+    rf_n_auc_ch = rf_n_auc(df_ch,rf_auc2_ch,rf_imp_ch)
 }
