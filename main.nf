@@ -1,6 +1,7 @@
 nextflow.enable.dsl=2
 
 include { constructDataset } from "$projectDir/modules/constructDataset.nf"
+include { remove_missing } from "$projectDir/modules/remove_missing.nf"
 include { boxcox } from "$projectDir/modules/boxcox.nf"
 include { standart1 } from "$projectDir/modules/standart.nf"
 include { standart2 } from "$projectDir/modules/standart.nf"
@@ -27,14 +28,14 @@ adDataCombined_ch = Channel.of(params.adDataCombined)
 ageCohort_ch = Channel.of(params.ageCohort)
 
 workflow {
-    clean_data_ch = constructDataset(adDataCombined_ch, ageCohort_ch)
-    norm1_data_ch = boxcox(clean_data_ch)
-    norm1_data_ch = standart1(norm1_data_ch)
-    imp_ch = imputation(intersection(norm1_data_ch)) // for ml
-    norm2_data_ch = standart2(clean_data_ch) // for LR
-    res_lr_ch = logistic_mark(norm2_data_ch)
-    res_lr_age_ch = logistic_age(select_control(norm2_data_ch))
-    res_lr_par_ch = logistic_mark_par(norm2_data_ch)
+    pre_ch = constructDataset(adDataCombined_ch, ageCohort_ch)
+    clean_data_ch = remove_missing(pre_ch)
+    b_data_ch = boxcox(clean_data_ch)
+    norm_data_ch = standart1(b_data_ch)
+    imp_ch = imputation(intersection(norm_data_ch)) // for ml
+    res_lr_ch = logistic_mark(norm_data_ch)
+    res_lr_age_ch = logistic_age(select_control(norm_data_ch))
+    res_lr_par_ch = logistic_mark_par(norm_data_ch)
     (df_ch,imuno_ch) = r_to_python(imp_ch)
     importance_lr_ch = lr_auc(df_ch,imuno_ch,res_lr_ch)
     (rf_auc1_ch,rf_auc2_ch) = rf_res(df_ch,imuno_ch)

@@ -112,6 +112,10 @@ for(j in falta3){
     alt_neg[j] = aux_sim[aux_sim$Sample==id_select,imuno]
     aux_sim = aux_sim[!aux_sim$Sample==id_select,]
 }
+real_pos = unlist(real_pos)
+real_neg = unlist(real_neg)
+alt_pos = unlist(alt_pos)
+alt_neg = unlist(alt_neg)
 delta_real = real_pos - real_neg
 delta_sim = alt_pos - alt_neg
 res = wilcox.test(delta_real, delta_sim,paired = TRUE, exact = TRUE)

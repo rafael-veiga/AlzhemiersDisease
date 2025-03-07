@@ -21,6 +21,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends r-base && \
 
 RUN Rscript -e "install.packages(c('tibble'), repos='https://cloud.r-project.org')"
 
+COPY scripts/remove_missing.R ./
 COPY scripts/Standart.R ./
 COPY scripts/intersection.R ./
 COPY scripts/select_control.R ./
