@@ -4,6 +4,7 @@ code used in paper " Alzhemiers Disease"
 ## Table of contents
 * [Instalation](#Instalation)
 * [Create docker images](#Create-docker-images)
+* [Run workflow](#Run-workflow)
 * [Files description](#Files-description)
 * [Necessary repositories](#Necessary-repositories)
 
@@ -17,6 +18,11 @@ In bash execute the file **create_docker.sh**
 ```
 chmod +x create_docker.sh
 ./create_docker.sh
+```
+## Run workflow
+In bash execute
+```
+nextflow run main.nf
 ```
 
 ## Files description
