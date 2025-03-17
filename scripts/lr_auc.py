@@ -17,7 +17,8 @@ import os
 file_df = sys.argv[1]
 file_imuno = sys.argv[2]
 file_res_lr = sys.argv[3]
-file_saida = sys.argv[4]
+var_size = int(sys.argv[4])
+file_saida = sys.argv[5]
 
 #file_df = "data_py_df.csv"
 #file_imuno = "data_py_immun.csv"
@@ -100,5 +101,5 @@ def lr_auc(df,immun,file_res_lr,var_size=10):
     
 df = pd.read_csv(file_df,sep=";")
 imuno = pd.read_csv(file_imuno).iloc[:, 0].tolist()
-data = lr_auc(df,imuno,file_res_lr)
+data = lr_auc(df,imuno,file_res_lr,var_size)
 data.to_csv(file_saida,index=False,sep=";")

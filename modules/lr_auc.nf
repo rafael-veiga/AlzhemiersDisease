@@ -1,6 +1,7 @@
 nextflow.enable.dsl=2
 
 process lr_auc {
+publishDir "result", mode: 'copy'
 label 'lr_auc'
 input:
 path input_df
@@ -11,6 +12,6 @@ output:
 path "auc_curv.csv"
 
 """
-python3 /scripts/lr_auc.py $input_df $input_immun $res_lr auc_curv.csv
+python3 /scripts/lr_auc.py $input_df $input_immun $res_lr 4 auc_curv.csv
 """
 }

@@ -18,7 +18,7 @@ include { rf_res } from "$projectDir/modules/rf_res.nf"
 include { rf_res2 } from "$projectDir/modules/rf_res2.nf"
 include { lr_n_auc } from "$projectDir/modules/lr_n_auc.nf"
 include { rf_n_auc } from "$projectDir/modules/rf_n_auc.nf"
-
+include { fig1 } from "$projectDir/modules/fig1.nf"
 
 params.adDataCombined = "$projectDir/data/AD_data_combined.csv"
 params.ageCohort = "$projectDir/data/age_cohort.csv"
@@ -43,4 +43,5 @@ workflow {
     pars_1(imp_ch,res_lr_ch)
     lr_n_auc_ch = lr_n_auc(df_ch,res_lr_ch)
     rf_n_auc_ch = rf_n_auc(df_ch,rf_auc2_ch,rf_imp_ch)
+    fig1(res_lr_ch,lr_n_auc_ch,importance_lr_ch,imp_ch)
 }

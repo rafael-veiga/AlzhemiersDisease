@@ -142,7 +142,7 @@ fig1 <- ggplot(res, aes(x = -log10(pvalue_real), y = -log10(pvalue_alt))) +
   ) +
   coord_cartesian(xlim = c(0, 4), ylim = c(0, 4)) +
   theme_minimal()
-pdf("fig1.pdf", width = 5, height = 5)
+pdf("fig_aux1.pdf", width = 5, height = 5)
 print(fig1)
 dev.off()
 
@@ -285,7 +285,7 @@ fig2 = ggplot(df, aes(x = group, y = distance, fill = group)) +
   theme_minimal() +
   theme(legend.position = "none")
 
-pdf("fig2.pdf", width = 4, height = 4)
+pdf("fig_aux2.pdf", width = 4, height = 4)
 print(fig2)
 dev.off()
 
@@ -429,6 +429,6 @@ fig3 = ggplot(df, aes(x = group, y = distance, fill = group)) +
   theme_minimal() +
   theme(legend.position = "none")
 
-pdf("fig3.pdf", width = 4, height = 4)
+pdf("fig_aux3.pdf", width = 4, height = 4)
 print(fig3)
 dev.off()
